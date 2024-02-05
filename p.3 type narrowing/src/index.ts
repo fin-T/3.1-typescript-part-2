@@ -48,13 +48,18 @@ function summ(a: A): number {
     let x = Object.keys(a).map((k) => {
         let elem = a[k];
         if (typeof elem === undefined) return 2022;
-        if (typeof elem?.cvalue === 'string') return +elem.cvalue || 2022;
-        if (elem?.cvalue !== undefined && typeof elem.cvalue !== "number") return summ({elem});
-        return elem?.cvalue;
+        let cval = elem?.cvalue;
+        if (cval) {
+            if (typeof cval === 'string') return +cval || 2022;
+            if (typeof cval !== 'number') return summ(cval);
+            return cval;
+        } else {
+            return 2022;
+        }
     });
     let sum = 0;
     for (let i = 0; i < x.length; i++) {
-        sum += x[i]!;
+        sum += x[i];
     }
     return sum;
 }
